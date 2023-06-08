@@ -36,16 +36,9 @@ border-radius:5px;
 export const Button = Styled.button`
 border:0px;
 background-color:transparent;
-color: ${props => (props.isActiveFontWeight ? '#faff00' : '#f1f5f9')};
+color: ${props => (props.isActive ? '#faff00' : '#f1f5f9')};
 margin-top:20px;
 
-`
-export const Button2 = Styled(Button)`
-color: ${props => (props.isActiveFontFamily ? '#faff00' : '#f1f5f9')};
-`
-
-export const Button3 = Styled(Button)`
-color: ${props => (props.isActiveUnderline ? '#faff00' : '#f1f5f9')};
 `
 
 export const TextArea = Styled.textarea`
@@ -58,9 +51,10 @@ width:auto;
 border:solid 1px #25262c;
 font-size:20px;
 border-radius:5px;
-font-family:${props => (props.isActiveFontFamily ? 'italic' : 'normal')};
 font-weight:${props => (props.isActiveFontWeight ? 'bold' : 'normal')};
-text-decoration:${props => (props.isActiveUnderline ? 'underline' : 'normal')};
+font-style:${props => (props.isActiveFontFamily ? 'italic' : 'normal')};
+text-decoration:${props =>
+  props.isActiveTextDecoration ? 'underline' : 'normal'};
 `
 export const IconsContainer = Styled.ul`
 width:100%;
@@ -72,6 +66,8 @@ flex-direction:row;
 align-items:center;
 list-style:none;
 padding:0;
+margin-top:0px;
+margin-bottom:0px;
 `
 
 export const ListItem = Styled.li`

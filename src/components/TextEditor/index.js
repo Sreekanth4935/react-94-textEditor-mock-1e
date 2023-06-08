@@ -12,16 +12,34 @@ import {
   TextArea,
   IconsContainer,
   ImageTextEditor,
-  Button2,
-  Button3,
   ListItem,
 } from './styledComponents'
 
+const initialButtonsText = [
+  {
+    buttonImg: <VscBold size={25} />,
+    id: 1,
+    isActive: false,
+    testId: 'bold',
+  },
+  {
+    buttonImg: <GoItalic size={25} />,
+    id: 2,
+    isActive: false,
+    testId: 'italic',
+  },
+
+  {
+    buttonImg: <AiOutlineUnderline size={25} />,
+    id: 3,
+    isActive: false,
+    testId: 'underline',
+  },
+]
+
 class TextEditor extends Component {
   state = {
-    isActiveFontWeight: false,
-    isActiveFontFamily: false,
-    isActiveUnderline: false,
+    buttonsText: initialButtonsText,
     textareaValue: '',
   }
 
@@ -31,31 +49,22 @@ class TextEditor extends Component {
     })
   }
 
-  changeUnderLine = () => {
+  changeToStyle = id => {
     this.setState(prevState => ({
-      isActiveUnderline: !prevState.isActiveUnderline,
-    }))
-  }
-
-  changeToBold = () => {
-    this.setState(prevState => ({
-      isActiveFontWeight: !prevState.isActiveFontWeight,
-    }))
-  }
-
-  changeFontFamily = () => {
-    this.setState(prevState => ({
-      isActiveFontFamily: !prevState.isActiveFontFamily,
+      buttonsText: prevState.buttonsText.map(eachButton => {
+        if (eachButton.id === id) {
+          return {
+            ...eachButton,
+            isActive: !eachButton.isActive,
+          }
+        }
+        return eachButton
+      }),
     }))
   }
 
   render() {
-    const {
-      textareaValue,
-      isActiveFontWeight,
-      isActiveFontFamily,
-      isActiveUnderline,
-    } = this.state
+    const {textareaValue, buttonsText} = this.state
     return (
       <MainContainer>
         <SecondContainer>
@@ -69,44 +78,25 @@ class TextEditor extends Component {
           </TextEditorContainer>
           <TextAreaContainer>
             <IconsContainer>
-              <ListItem id="1">
-                <Button
-                  onClick={this.changeToBold}
-                  isActiveFontWeight={isActiveFontWeight}
-                  data-testid="bold"
-                >
-                  <VscBold size={25} />
-                </Button>
-              </ListItem>
-
-              <ListItem id="2">
-                <Button2
-                  onClick={this.changeFontFamily}
-                  isActiveFontFamily={isActiveFontFamily}
-                  type="button"
-                  data-testid="italic"
-                >
-                  <GoItalic size={25} />
-                </Button2>
-              </ListItem>
-
-              <ListItem id="3">
-                <Button3
-                  onClick={this.changeUnderLine}
-                  isActiveUnderline={isActiveUnderline}
-                  type="button"
-                  data-testid="underline"
-                >
-                  <AiOutlineUnderline size={25} />
-                </Button3>
-              </ListItem>
+              {buttonsText.map(eachButton => (
+                <ListItem key={eachButton.id}>
+                  <Button
+                    isActive={eachButton.isActive}
+                    onClick={() => this.changeToStyle(eachButton.id)}
+                    type="button"
+                    data-testid={eachButton.testId}
+                  >
+                    {eachButton.buttonImg}
+                  </Button>
+                </ListItem>
+              ))}
             </IconsContainer>
             <TextArea
               rows={25}
               cols="50"
-              isActiveFontFamily={isActiveFontFamily}
-              isActiveFontWeight={isActiveFontWeight}
-              isActiveUnderline={isActiveUnderline}
+              isActiveFontWeight={buttonsText[0].isActive}
+              isActiveFontFamily={buttonsText[1].isActive}
+              isActiveTextDecoration={buttonsText[2].isActive}
               value={textareaValue}
               onChange={this.handleTextareaChange}
             >
